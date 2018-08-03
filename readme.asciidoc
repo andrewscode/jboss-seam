@@ -14,28 +14,134 @@ Seam 2 is a powerful open source development platform for building rich Internet
 
 Seam has been designed from the ground up to eliminate complexity at both architecture and API levels. It enables developers to assemble complex web applications using simple annotated Java classes, a rich set of UI components, and very little XML. Seam's unique support for conversations and declarative state management can introduce a more sophisticated user experience while at the same time eliminating common bugs found in traditional web applications. 
 
-Get Up And Running Quick
-~~~~~~~~~~~~~~~~~~~~~~~~ 
-1. Install JBoss AS 7.1.1.Final  
-
-2. Start JBoss AS by typing `bin/standalone.sh` in the JBoss AS home directory
-
-3. In the link:examples/booking[] directory, type `mvn clean package` and check 
-   for any error messages.
-
-4. In the booking-ear directory run:
-
-    `mvn jboss-as:deploy`
-   
-5. Point your browser to http://localhost:8080/seam-booking/
-      
-6. Register an account, search for hotels, book a room...
-
 Learn more
 ~~~~~~~~~~
 * Read the documentation in the link:seam-reference-guide/src/docbook/en-US[reference documentation] directory
 * Read the online FAQ http://www.seamframework.org/Documentation/FAQs
 
+
 Notes for this release
 ~~~~~~~~~~~~~~~~~~~~~~
 Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distribution *anymore*
+
+
+Wildfly Support
+~~~~~~~~~~~~~~~
+
+This link:https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final[branch] attempts to update Seam 2.3 to support JEE 7, JSF 2.2, Servlet 3.1, RESTEasy 3.0.19 and target Wildfly 10.1.0.Final.
+
+This is an unofficial modification of Seam 2.3 and related libraries.
+
+Source Code
+^^^^^^^^^^^
+
+* https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final 
+** is forked from https://github.com/andrewscode/jboss-seam/tree/seam_2_3-jee7 
+** is forked from https://github.com/seam2/jboss-seam 
+** is forked from https://github.com/mareknovotny/jboss-seam
+* https://github.com/mark1900/jbpm3-seam 
+** is forked from https://github.com/mareknovotny/jbpm3-seam
+
+Components
+^^^^^^^^^^
+
+Please note, that you will need to build and release the following components into your local environment, in the following order.
+
+. *jbpm3-seam* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5
+. *jsf-console* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5/projects/jsf-console-3.2.10-seam
+. *jboss-seam* - https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
+
+
+Building and Releasing the Components
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* *jbpm3-seam* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5
+
+[source,shell]
+----
+
+#!/bin/bash
+set -e
+set -x
+ 
+id
+ 
+JBPM_VERSION_FROM=3.2.10-1-SP3_seam2_hibernate5-SNAPSHOT
+JBPM_VERSION_TO=3.2.10-1-SP3_seam2_hibernate5
+ 
+ 
+rm -rf ${WORKSPACE}/github
+mkdir ${WORKSPACE}/github
+cd ${WORKSPACE}/github
+ 
+git clone -b 3.2.10.SP3_seam2_hibernate5 https://github.com/mark1900/jbpm3-seam.git
+zip -r jbpm3-seam-3.2.10.SP3_seam2_hibernate5.zip jbpm3-seam
+find ${WORKSPACE}/github/jbpm3-seam -type f -name "pom.xml" -exec sed -i "s/${JBPM_VERSION_FROM}/${JBPM_VERSION_TO}/g" {} \;
+ 
+ 
+# Maven Command
+mvn -B -f ${WORKSPACE}/github/jbpm3-seam/pom.xml -U -P prod -X -e clean help:effective-settings help:effective-pom install -DskipTests=true
+----
+
+* *jsf-console* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5/projects/jsf-console-3.2.10-seam
+
+[source,shell]
+----
+
+#!/bin/bash
+set -e
+set -x
+ 
+id
+ 
+JBPM_VERSION_FROM=3.2.10-1-SP3_seam2_hibernate5-SNAPSHOT
+JBPM_VERSION_TO=3.2.10-1-SP3_seam2_hibernate5
+JSF_CONSOLE_VERSION_FROM=3.2.10-1-seam2_hibernate5-SNAPSHOT
+JSF_CONSOLE_VERSION_TO=3.2.10-1-seam2_hibernate5
+ 
+ 
+rm -rf ${WORKSPACE}/github
+mkdir ${WORKSPACE}/github
+cd ${WORKSPACE}/github
+ 
+git clone -b 3.2.10.SP3_seam2_hibernate5 https://github.com/mark1900/jbpm3-seam.git
+zip -r jsf-console-3.2.10-1-seam2_hibernate5.zip jbpm3-seam/projects/jsf-console-3.2.10-seam
+find ${WORKSPACE}/github/jbpm3-seam -type f -name "pom.xml" -exec sed -i "s/${JBPM_VERSION_FROM}/${JBPM_VERSION_TO}/g" {} \;
+find ${WORKSPACE}/github/jbpm3-seam -type f -name "pom.xml" -exec sed -i "s/${JSF_CONSOLE_VERSION_FROM}/${JSF_CONSOLE_VERSION_TO}/g" {} \;
+ 
+# Maven Command
+mvn -B -f ${WORKSPACE}/github/jbpm3-seam/projects/jsf-console-3.2.10-seam/pom.xml -U -P prod -X -e clean help:effective-settings help:effective-pom install
+
+----
+
+* *jboss-seam* - https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
+
+[source,shell]
+----
+
+#!/bin/bash
+set -e
+set -x
+ 
+id
+ 
+SEAM_VERSION_FROM=2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT
+SEAM_VERSION_TO=2.3.2-1-wildfly_10_1_0_Final
+JBPM_VERSION_FROM=3.2.10-1-SP3_seam2_hibernate5-SNAPSHOT
+JBPM_VERSION_TO=3.2.10-1-SP3_seam2_hibernate5
+
+ 
+rm -rf ${WORKSPACE}/github
+mkdir ${WORKSPACE}/github
+cd ${WORKSPACE}/github
+ 
+git clone -b seam_2_3-wildfly_10_1_0_Final https://github.com/mark1900/jboss-seam.git
+zip -r jboss-seam-seam_2_3-wildfly_10_1_0_Final.zip jboss-seam
+find ${WORKSPACE}/github/jboss-seam -type f -name "pom.xml" -exec sed -i "s/${SEAM_VERSION_FROM}/${SEAM_VERSION_TO}/g" {} \;
+find ${WORKSPACE}/github/jboss-seam -type f -name "pom.xml" -exec sed -i "s/${JBPM_VERSION_FROM}/${JBPM_VERSION_TO}/g" {} \;
+ 
+ 
+# Maven Command
+mvn -B -f ${WORKSPACE}/github/jboss-seam/pom.xml -U -P prod -X -e clean help:effective-settings help:effective-pom install
+
+----

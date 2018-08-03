@@ -231,7 +231,7 @@ to the updated Seam examples in Seam distribution.</para>
          <local-tx-datasource>
             <jndi-name>seamdiscsDatasource</jndi-name>
             <connection-url>jdbc:hsqldb:.</connection-url>
-            <driver-class>org.hsqldb.jdbcDriver</driver-class>
+            <driver-class>org.hsqldb.jdbc.JDBCDriver</driver-class>
             <user-name>sa</user-name>
             <password></password>
          </local-tx-datasource>
@@ -247,7 +247,7 @@ to the updated Seam examples in Seam distribution.</para>
               enabled="true"
               use-java-context="true" pool-name="seamdiscs">
               <connection-url>jdbc:hsqldb:.</connection-url>
-              <driver>org.hsqldb.jdbcDriver</driver>
+              <driver>org.hsqldb.jdbc.JDBCDriver</driver>
               <security>
                   <user-name>sa</user-name>
                   <password></password>

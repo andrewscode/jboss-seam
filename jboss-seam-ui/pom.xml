@@ -3,7 +3,7 @@
     <parent>
         <artifactId>jboss-seam-parent</artifactId>
         <groupId>org.jboss.seam</groupId>
-        <version>2.3.2-SNAPSHOT</version>
+        <version>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jboss-seam-ui</artifactId>
@@ -14,8 +14,8 @@
         <plugins>
             <plugin>
                 <groupId>org.richfaces.cdk</groupId>
-                <artifactId>maven-cdk-plugin</artifactId>
-                <version>${version.richfaces.cdk}</version>
+                <artifactId>richfaces-cdk-maven-plugin</artifactId>
+                <version>4.5.0.Final</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -52,7 +52,7 @@
                      </goals>
                   </execution>
                </executions>
-            </plugin> 
+            </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
@@ -101,8 +101,40 @@
                                 </goals>
                              </pluginExecutionFilter>
                              <action>
-                                <ignore />
+                                <execute></execute>
                              </action>
+                          </pluginExecution>
+                          <pluginExecution>
+                              <pluginExecutionFilter>
+                                  <groupId>org.richfaces.cdk</groupId>
+                                  <artifactId>
+                                      richfaces-cdk-maven-plugin
+                                  </artifactId>
+                                  <versionRange>
+                                      [4.5.0.Final,)
+                                  </versionRange>
+                                  <goals>
+                                      <goal>generate</goal>
+                                  </goals>
+                              </pluginExecutionFilter>
+                              <action>
+                                  <execute></execute>
+                              </action>
+                          </pluginExecution>
+                          <pluginExecution>
+                              <pluginExecutionFilter>
+                                  <groupId>org.jboss.seam</groupId>
+                                  <artifactId>
+                                      seam-cdk-helper
+                                  </artifactId>
+                                  <versionRange>[1.0.1,)</versionRange>
+                                  <goals>
+                                      <goal>execute</goal>
+                                  </goals>
+                              </pluginExecutionFilter>
+                              <action>
+                                  <execute></execute>
+                              </action>
                           </pluginExecution>
                        </pluginExecutions>
                     </lifecycleMappingMetadata>
@@ -117,14 +149,14 @@
 
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
-            <artifactId>jboss-jsp-api_2.2_spec</artifactId>
+            <artifactId>jboss-jsp-api_2.3_spec</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>
@@ -134,7 +166,6 @@
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
         </dependency>
-
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
@@ -150,7 +181,7 @@
 
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -159,7 +190,6 @@
             <artifactId>jsf-impl</artifactId>
             <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.jbpm.jbpm3</groupId>
@@ -275,7 +305,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>        
+        </profile>
     </profiles>
 
 </project>

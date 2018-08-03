@@ -17,6 +17,8 @@
 package org.jboss.seam.mock;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -72,5 +74,17 @@ public class DelegatingServletOutputStream extends ServletOutputStream
       super.close();
       this.targetStream.close();
    }
+
+    @Override
+    public boolean isReady()
+    {
+        return true;
+    }
+
+    @Override
+    public void setWriteListener( WriteListener writeListener )
+    {
+        throw new RuntimeException("writeListener not supported");
+    }
 
 }

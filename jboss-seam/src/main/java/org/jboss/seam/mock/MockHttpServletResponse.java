@@ -227,4 +227,14 @@ public class MockHttpServletResponse implements HttpServletResponse
       return null;
    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setContentLengthLong( long len )
+    {
+        // TODO Auto-generated method stub
+
+    }
+
 }

@@ -27,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * Tests various conversation propagation scenarios.
- * 
+ *
  * @author maschmid
  *
  */
@@ -53,7 +53,7 @@ public class ConversationPropagationsTest
             MyConversationEndingException.class);
 
       war.delete("WEB-INF/pages.xml");
-
+      war.addAsWebInfResource("org/jboss/seam/test/integration/faces/conversations/jboss-all.xml","jboss-all.xml");
       war.addAsWebResource("org/jboss/seam/test/integration/faces/conversations/conversations.xhtml",
             "conversations.xhtml")
             .addAsWebResource("org/jboss/seam/test/integration/faces/conversations/error.xhtml", "error.xhtml")

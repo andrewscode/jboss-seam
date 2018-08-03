@@ -20,7 +20,7 @@ import org.jboss.el.lang.VariableMapperImpl;
 
 /**
  * An instance of JBoss EL.
- * 
+ *
  * @author Gavin King
  *
  */
@@ -29,9 +29,9 @@ public class EL
    public static final ELResolver EL_RESOLVER = createELResolver();
    //ELContext instances should not be shared between threads
    //public static final ELContext EL_CONTEXT = createELContext( EL_RESOLVER, new FunctionMapperImpl() );
-   
+
    public static final ExpressionFactory EXPRESSION_FACTORY = new ExpressionFactoryImpl();
-   
+
    private static ELResolver createELResolver()
    {
       CompositeELResolver resolver = new CompositeELResolver();
@@ -47,7 +47,7 @@ public class EL
    public static ELContext createELContext() {
        return createELContext( EL_RESOLVER, new FunctionMapperImpl() );
    }
-   
+
    public static ELContext createELContext(final ELResolver resolver, final FunctionMapper functionMapper)
    {
       return new ELContext()
@@ -71,10 +71,10 @@ public class EL
          {
             return variableMapper;
          }
-         
+
       };
    }
-   
+
    public static ELContext createELContext(final ELContext context, final ELResolver resolver)
    {
       return new ELContext()
@@ -85,40 +85,40 @@ public class EL
          {
             return context.getLocale();
          }
-         
+
          @Override
          public void setPropertyResolved(boolean value)
          {
             super.setPropertyResolved(value);
             context.setPropertyResolved(value);
          }
-         
+
          /*@Override
          public boolean isPropertyResolved()
          {
             return super.isPropertyResolved();
          }*/
-         
+
          @Override
          public void putContext(Class clazz, Object object)
          {
             super.putContext(clazz, object);
             context.putContext(clazz, object);
          }
-         
+
          @Override
          public Object getContext(Class clazz)
          {
             return context.getContext(clazz);
          }
-         
+
          @Override
          public void setLocale(Locale locale)
          {
             super.setLocale(locale);
             context.setLocale(locale);
          }
-         
+
          @Override
          public ELResolver getELResolver()
          {
@@ -136,8 +136,8 @@ public class EL
          {
             return context.getVariableMapper();
          }
-         
+
       };
    }
-   
+
 }

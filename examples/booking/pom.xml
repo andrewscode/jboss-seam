@@ -3,26 +3,26 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.seam.examples</groupId>
     <artifactId>booking</artifactId>
-    <version>2.3.2-SNAPSHOT</version>
+    <version>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Booking Example (EE6)</name>
-    
+
     <properties>
         <example.name>booking</example.name>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+
         <!-- To use jacoco, set jacoco.agent system property to something like
         -javaagent:/path/to/jacocoagent.jar=append=true,destfile=/path/to/output/jacoco.exec -->
         <jacoco.agent />
-        
-        <!-- To use custom Maven settings with ShrinkWrap Resolver, uncomment 
+
+        <!-- To use custom Maven settings with ShrinkWrap Resolver, uncomment
              and customize the following property.  -->
         <!--<maven.user.settings>/path/to/custom/settings.xml</maven.user.settings>-->
-        
+
         <version.commons.logging>1.1.1</version.commons.logging>
-                
+
         <!-- Plugin versions -->
         <version.dependency.plugin>2.5.1</version.dependency.plugin>
         <version.surefire.plugin>2.10</version.surefire.plugin>
@@ -32,14 +32,15 @@
         <version.war.plugin>2.1.1</version.war.plugin>
         <version.ejb.plugin>2.3</version.ejb.plugin>
         <version.jboss.maven.plugin>7.4.Final</version.jboss.maven.plugin>
+        <version.org.jboss.spec.javax.faces>2.2.13</version.org.jboss.spec.javax.faces>
     </properties>
-    
+
     <modules>
         <module>booking-ear</module>
         <module>booking-ejb</module>
         <module>booking-web</module>
     </modules>
-    
+
     <dependencyManagement>
         <dependencies>
             <!-- Modules -->
@@ -61,7 +62,7 @@
                 <version>${project.version}</version>
                 <type>ear</type>
             </dependency>
-            
+
             <!-- BOMs -->
             <dependency>
                 <groupId>org.jboss.seam</groupId>
@@ -70,7 +71,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
             <!-- Common provided dependencies -->
             <dependency>
                 <groupId>commons-logging</groupId>
@@ -78,7 +79,7 @@
                 <version>${version.commons.logging}</version>
                 <scope>provided</scope>
             </dependency>
-            
+
             <!-- TestNG is not necessary -->
             <dependency>
                 <groupId>org.jboss.seam</groupId>
@@ -95,10 +96,16 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+            <scope>provided</scope>
+            <version>${version.org.jboss.spec.javax.faces}</version>
+        </dependency>
+
         </dependencies>
     </dependencyManagement>
-    
+
     <build>
         <pluginManagement>
             <plugins>

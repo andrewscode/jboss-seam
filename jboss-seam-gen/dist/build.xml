@@ -426,7 +426,7 @@
         <condition property="hibernate.connection.driver_class.default" value="org.h2.Driver">
             <equals arg1="${database.type.new}" arg2="h2"/>
         </condition>
-        <condition property="hibernate.connection.driver_class.default" value="org.hsqldb.jdbcDriver">
+        <condition property="hibernate.connection.driver_class.default" value="org.hsqldb.jdbc.JDBCDriver">
             <equals arg1="${database.type.new}" arg2="hsql"/>
         </condition>
         <condition property="hibernate.connection.driver_class.default" value="com.mysql.jdbc.Driver">

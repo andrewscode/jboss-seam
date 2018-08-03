@@ -26,46 +26,46 @@ import org.jboss.seam.log.Log;
 @Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking
 {
-   
+
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
-   
-   @In 
+
+   @In
    private User user;
-   
+
    @In(required=false) @Out
    private Hotel hotel;
-   
-   @In(required=false) 
+
+   @In(required=false)
    @Out(required=false)
    private Booking booking;
-     
+
    @In
    private FacesMessages facesMessages;
-      
+
    @In
    private Events events;
-   
-   @Logger 
+
+   @Logger
    private Log log;
-   
+
    private boolean bookingValid;
-   
-   @Begin
+
+   @Begin(join=true)
    public void selectHotel(Hotel selectedHotel)
    {
       hotel = em.merge(selectedHotel);
    }
-   
+
    public void bookHotel()
-   {      
+   {
       booking = new Booking(hotel, user);
       Calendar calendar = Calendar.getInstance();
       booking.setCheckinDate( calendar.getTime() );
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
    }
-   
+
    public void setBookingDetails()
    {
       Calendar calendar = Calendar.getInstance();
@@ -85,12 +85,12 @@ public class HotelBookingAction implements HotelBooking
          bookingValid=true;
       }
    }
-   
+
    public boolean isBookingValid()
    {
       return bookingValid;
    }
-   
+
    @End
    public void confirm()
    {
@@ -99,10 +99,10 @@ public class HotelBookingAction implements HotelBooking
       log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseTransactionSuccessEvent("bookingConfirmed");
    }
-   
+
    @End
    public void cancel() {}
-   
+
    @Remove
    public void destroy() {}
 }

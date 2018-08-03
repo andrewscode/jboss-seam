@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -181,5 +183,18 @@ public abstract class AbstractResource
       {
          // noop
       }
+
+      @Override
+      public boolean isReady()
+      {
+          return true;
+      }
+
+      @Override
+      public void setWriteListener( WriteListener writeListener )
+      {
+          throw new RuntimeException("write listeners not yet supported on seam's GZipResponse Stream");
+      }
+
    }
 }

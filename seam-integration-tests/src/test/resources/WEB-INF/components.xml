@@ -4,6 +4,7 @@
             xmlns:core="http://jboss.org/schema/seam/core"
             xmlns:i18n="http://jboss.org/schema/seam/international"
             xmlns:security="http://jboss.org/schema/seam/security"
+            xmlns:transaction="http://jboss.org/schema/seam/transaction"
             xmlns:persistence="http://jboss.org/schema/seam/persistence"
             xmlns:web="http://jboss.org/schema/seam/web"
             xmlns:framework="http://jboss.org/schema/seam/framework"
@@ -28,6 +29,17 @@
 
     <i18n:locale-config default-locale="fr_CA" supported-locales="fr_CA fr_FR en"/>
     
+    <transaction:ejb-transaction />
+    
+    <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/test/EjbSynchronizations"/>
+    
+    <!--
+    Don't define the TimerServiceDispatcher component.   Simply defining the component and it's jndi name causes it to be used
+    over seam's regular ThreadPoolDispatcher.  At this time, our system isn't designed to handle.  Consider switching at
+    some point in the future to allow async tasks to be persisted and run after transaction competition.
+ 	-->
+<!-- 	<component class="org.jboss.seam.async.TimerServiceDispatcher" jndi-name="java:app/jboss-seam/TimerServiceDispatcher"/> -->
+        
     <persistence:managed-persistence-context name="entityManager"
                                              auto-create="true"
                                              persistence-unit-jndi-name="java:/integrationEntityManagerFactory" />

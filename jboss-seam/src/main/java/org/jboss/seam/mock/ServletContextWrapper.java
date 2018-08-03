@@ -36,11 +36,11 @@ import org.jboss.seam.util.IteratorEnumeration;
  * @author Marek Schmidt
  */
 public class ServletContextWrapper implements ServletContext {
-   
-   private ServletContext delegate; 
-   
+
+   private ServletContext delegate;
+
    private Map<String, Object> attributes = new HashMap<String, Object>();
-   
+
    public ServletContextWrapper(ServletContext delegate) {
       this.delegate = delegate;
    }
@@ -282,4 +282,13 @@ public class ServletContextWrapper implements ServletContext {
    {
       delegate.declareRoles(roleNames);
    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getVirtualServerName()
+    {
+        return delegate.getVirtualServerName();
+    }
 }

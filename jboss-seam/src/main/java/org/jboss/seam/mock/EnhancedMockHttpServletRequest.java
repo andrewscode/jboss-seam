@@ -28,6 +28,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 import java.io.BufferedReader;
@@ -1029,12 +1030,12 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
    public void setSession(HttpSession session)
    {
       /*
-	   TODO: We don't track access times in mocks (yet) mockSession.access();
-		if (session instanceof MockHttpSession) {
-			MockHttpSession mockSession = ((MockHttpSession) session);
-			...
-		}
-		*/
+       TODO: We don't track access times in mocks (yet) mockSession.access();
+        if (session instanceof MockHttpSession) {
+            MockHttpSession mockSession = ((MockHttpSession) session);
+            ...
+        }
+        */
       this.session = session;
    }
 
@@ -1092,7 +1093,7 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
    public boolean isRequestedSessionIdFromUrl()
    {
       return isRequestedSessionIdFromURL();
-	}
+    }
 
    public boolean isAllParametersInQueryString() {
       return true;
@@ -1151,14 +1152,14 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
    public void login(String username, String password) throws ServletException
    {
       // TODO Auto-generated method stub
-      
+
    }
 
    @Override
    public void logout() throws ServletException
    {
       // TODO Auto-generated method stub
-      
+
    }
 
    @Override
@@ -1174,5 +1175,33 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
       // TODO Auto-generated method stub
       return null;
    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long getContentLengthLong()
+    {
+        return (this.content != null ? this.content.length : -1);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String changeSessionId()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade( Class<T> handlerClass ) throws IOException, ServletException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -1,24 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
-
 <!DOCTYPE hibernate-configuration PUBLIC
-          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-  <session-factory>
+  <session-factory name="hibernateSessionFactory">
+<!--   <session-factory name="hibernateSessionFactory" transaction-type="JTA"> -->
 
-    <property name="show_sql">false</property>
     <property name="connection.datasource">java:jboss/datasources/ExampleDS</property>
-    <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+    <property name="connection.release_mode">after_statement</property>
+    <property name="transaction.flush_before_completion">true</property>
+
+    <property name="transaction.jta.platform">org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform</property>
     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+    <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+
     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="hbm2ddl.auto">create-drop</property>
-    
+
     <property name="hibernate.cache.use_query_cache">false</property>
     <property name="hibernate.cache.use_second_level_cache">false</property>
-    
-    <!--property name="transaction.flush_before_completion">true</property-->
-    
+
+    <property name="show_sql">true</property>
+
     <!-- ############################################ -->
     <!-- # mapping files with external dependencies # -->
     <!-- ############################################ -->
@@ -41,7 +45,7 @@
     <mapping resource="org/jbpm/identity/Group.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Membership.hbm.xml"/>
     ==== identity mappings (end) -->
-    
+
     <!-- following mapping files have a dependendy on  -->
     <!-- the JCR API                                   -->
     <!-- jcr mappings (begin) ===
@@ -52,7 +56,7 @@
     <!-- ###################### -->
     <!-- # jbpm mapping files # -->
     <!-- ###################### -->
-    
+
     <mapping resource="org/jbpm/db/hibernate.types.hbm.xml" />
 
     <!-- hql queries and type defs -->
@@ -60,7 +64,7 @@
 
     <!-- graph.action mapping files -->
     <mapping resource="org/jbpm/graph/action/MailAction.hbm.xml"/>
-    
+
     <!-- graph.def mapping files -->
     <mapping resource="org/jbpm/graph/def/ProcessDefinition.hbm.xml"/>
     <mapping resource="org/jbpm/graph/def/Node.hbm.xml"/>
@@ -113,7 +117,7 @@
 
     <!-- module.exe mapping files -->
     <mapping resource="org/jbpm/module/exe/ModuleInstance.hbm.xml"/>
-        
+
     <!-- context.exe mapping files -->
     <mapping resource="org/jbpm/context/exe/ContextInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/TokenVariableMap.hbm.xml"/>
@@ -170,6 +174,6 @@
     <mapping resource="org/jbpm/taskmgmt/log/SwimlaneLog.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/log/SwimlaneCreateLog.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/log/SwimlaneAssignLog.hbm.xml"/>
-    
+
   </session-factory>
 </hibernate-configuration>

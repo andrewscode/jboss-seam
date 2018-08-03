@@ -13,6 +13,7 @@ import javax.transaction.SystemException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
@@ -26,12 +27,12 @@ import org.jboss.seam.log.Logging;
 
 /**
  * Support for the Hibernate Transaction API.
- * 
- * Adapts Hibernate transaction management to a Seam UserTransaction 
+ *
+ * Adapts Hibernate transaction management to a Seam UserTransaction
  * interface. For use in non-JTA-capable environments.
- * 
+ *
  * @author Gavin King
- * 
+ *
  */
 @Name("org.jboss.seam.transaction.transaction")
 @Scope(ScopeType.EVENT)
@@ -44,7 +45,7 @@ public class HibernateTransaction extends AbstractUserTransaction
    private ValueExpression<Session> session;
    private Session currentSession;
    private boolean rollbackOnly; //Hibernate Transaction doesn't have a "rollback only" state
-   
+
    @Create
    public void validate()
    {
@@ -53,7 +54,7 @@ public class HibernateTransaction extends AbstractUserTransaction
          session = Expressions.instance().createValueExpression("#{session}", Session.class);
       }
    }
-   
+
    private org.hibernate.Transaction getDelegate()
    {
       if (currentSession==null)
@@ -133,7 +134,7 @@ public class HibernateTransaction extends AbstractUserTransaction
       {
          return Status.STATUS_MARKED_ROLLBACK;
       }
-      else if ( isSessionSet() && getDelegate().isActive() )
+      else if ( isSessionSet() && getDelegate().getStatus() == TransactionStatus.ACTIVE )
       {
          return Status.STATUS_ACTIVE;
       }
@@ -148,12 +149,12 @@ public class HibernateTransaction extends AbstractUserTransaction
       assertActive();
       getDelegate().setTimeout(timeout);
    }
-   
+
    private boolean isSessionSet()
    {
       return currentSession!=null;
    }
-   
+
    private void clearSession()
    {
       currentSession = null;
@@ -175,7 +176,7 @@ public class HibernateTransaction extends AbstractUserTransaction
          throw new NotSupportedException("transaction is already active");
       }
    }
-   
+
    @Override
    public void registerSynchronization(Synchronization sync)
    {
@@ -186,13 +187,13 @@ public class HibernateTransaction extends AbstractUserTransaction
       assertActive();
       getDelegate().registerSynchronization(sync);
    }
-   
+
    @Override
    public void enlist(EntityManager entityManager) throws SystemException
    {
       throw new UnsupportedOperationException("JPA EntityManager should not be used with Hibernate Transaction API");
    }
-   
+
    @Override
    public boolean isConversationContextRequired()
    {

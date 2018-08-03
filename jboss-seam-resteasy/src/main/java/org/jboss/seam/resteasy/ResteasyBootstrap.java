@@ -119,7 +119,7 @@ public class ResteasyBootstrap
       dispatcher.getDefaultContextObjects().put(Dispatcher.class, dispatcher);
       Map contextDataMap = SeamResteasyProviderFactory.getContextDataMap();
       contextDataMap.putAll(dispatcher.getDefaultContextObjects());
-      
+
       // Seam can scan the classes for us, we just have to list them in META-INF/seam-deployment.properties
       DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");
       AnnotationDeploymentHandler handler =
@@ -145,8 +145,12 @@ public class ResteasyBootstrap
 
    protected void initDispatcher()
    {
-      getDispatcher().setLanguageMappings(application.getLanguageMappings());
-      getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
+       // This functionality (setLang.. setMedi..) seems to been removed from the Dispatcher.
+       // if one wants to customize the language mappers / media type mappings, one should use the context-params
+       // in web.xml
+
+//      getDispatcher().setLanguageMappings(application.getLanguageMappings());
+//      getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
    }
 
    protected Collection<Class<?>> findProviders(AnnotationDeploymentHandler handler)
@@ -296,17 +300,25 @@ public class ResteasyBootstrap
          // - be an interface, which we don't care about if we don't have an implementation
          if (providerClass.isInterface()) continue;
 
-         // - be just plain RESTEasy, no Seam component lookup or lifecycle
-         if (StringConverter.class.isAssignableFrom(providerClass))
-         {
-            log.debug("registering provider as RESTEasy StringConverter: {0}", providerClass);
-            getDispatcher().getProviderFactory().addStringConverter((Class<? extends StringConverter>) providerClass);
-         }
-         else
-         {
-            log.debug("registering provider as plain JAX-RS type: {0}", providerClass);
-            getDispatcher().getProviderFactory().registerProvider(providerClass);
-         }
+//         // - be just plain RESTEasy, no Seam component lookup or lifecycle
+//         if (StringConverter.class.isAssignableFrom(providerClass))
+//         {
+//            log.debug("registering provider as RESTEasy StringConverter: {0}", providerClass);
+//
+//           // getDispatcher().getProviderFactory().addStringConverter((Class<? extends StringConverter>) providerClass);
+//            getDispatcher().getProviderFactory().registerProvider(providerClass);
+//         }
+//         else
+//         {
+
+         // AS NOTE:
+         // addStringConverter is now a protected method.  StringConverter is deprecated.
+         // we shouldn't have a problem here adding it as a regular seam component.
+         // There might be a small performance penalty?
+         log.debug("registering provider as plain JAX-RS type: {0}", providerClass);
+         getDispatcher().getProviderFactory().registerProvider(providerClass);
+
+//         }
       }
    }
 

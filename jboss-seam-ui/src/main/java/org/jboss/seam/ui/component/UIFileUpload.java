@@ -15,12 +15,12 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class which renders a file upload control. 
+ * JSF component class which renders a file upload control.
  * This control must be used within a form with an encoding type of multipart/form-data
- * 
+ *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.FileUpload",value="Renders a file upload control. This control must be used within a form with an encoding type of multipart/form-data"),
-family="org.jboss.seam.ui.FileUpload", type="org.jboss.seam.ui.FileUpload",generate="org.jboss.seam.ui.component.html.HtmlFileUpload", 
+family="org.jboss.seam.ui.FileUpload", type="org.jboss.seam.ui.FileUpload",generate="org.jboss.seam.ui.component.html.HtmlFileUpload",
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="fileUpload"),
 renderer = @JsfRenderer(type="org.jboss.seam.ui.FileUploadRenderer", family="org.jboss.seam.ui.FileUploadRenderer"),
 attributes = {"core-props.xml", "focus-props.xml", "javax.faces.component.EditableValueHolder.xml" })
@@ -38,20 +38,19 @@ public abstract class UIFileUpload extends UIInput
    @Override
    public void processUpdates(FacesContext context)
    {
-      
       // Skip processing if rendered flag is false.
-      // this logic is in javax.faces.component.UIInput.processUpdates(FacesContext context) 
+      // this logic is in javax.faces.component.UIInput.processUpdates(FacesContext context)
       if (!isRendered()) {
          return;
       }
-      
+
       ValueExpression dataBinding = getValueExpression("data");
       if (dataBinding != null)
       {
          if (getLocalContentType() != null)
          {
             ValueExpression valueExpression = getValueExpression("contentType");
-            if (valueExpression != null) 
+            if (valueExpression != null)
             {
                valueExpression.setValue(context.getELContext(), getLocalContentType());
             }
@@ -73,8 +72,8 @@ public abstract class UIFileUpload extends UIInput
             {
                valueExpression.setValue(context.getELContext(), getLocalFileSize());
             }
-         }         
-         
+         }
+
          Class clazz = dataBinding.getType(context.getELContext());
          if (clazz.isAssignableFrom(InputStream.class))
          {
@@ -87,7 +86,7 @@ public abstract class UIFileUpload extends UIInput
             {
                ByteArrayOutputStream bos = new ByteArrayOutputStream();
                try
-               {                  
+               {
                   byte[] buffer = new byte[512];
                   int read = getLocalInputStream().read(buffer);
                   while (read != -1)
@@ -95,16 +94,26 @@ public abstract class UIFileUpload extends UIInput
                      bos.write(buffer, 0, read);
                      read = getLocalInputStream().read(buffer);
                   }
-                  bytes = bos.toByteArray();              
+                  bytes = bos.toByteArray();
                }
                catch (IOException e)
                {
                   throw new RuntimeException(e);
                }
+               finally
+               {
+                    try
+                    {
+                        getLocalInputStream().close();
+                    }
+                    catch ( IOException e )
+                    {
+                    }
+                }
             }
             dataBinding.setValue(context.getELContext(), bytes);
          }
-      }    
+      }
    }
 
    public String getLocalContentType()
@@ -126,7 +135,7 @@ public abstract class UIFileUpload extends UIInput
    {
       this.localFileName = extractFilename(localFileName);
    }
-   
+
    /**
     * Workaround for IE, which includes the full path to the file.
     */
@@ -161,7 +170,7 @@ public abstract class UIFileUpload extends UIInput
    {
       this.localInputStream = localInputStream;
    }
-   
+
    /**
     * {@inheritDoc}
     *
@@ -277,9 +286,9 @@ public abstract class UIFileUpload extends UIInput
            return inputStream;
        }
    }
-   
+
    public abstract void setAccept(String accept);
-   
+
    @Attribute(description = @Description("a comma-separated list of content types to accept, " +
            "may not be supported by the browser. E.g. \"images/png,images/jpg\",\"images/*\"."))
    public abstract String getAccept();
@@ -295,15 +304,15 @@ public abstract class UIFileUpload extends UIInput
 
    @Attribute(description = @Description("this value binding receives the file size (optional)."))
    public abstract Integer getFileSize();
-   
+
    @Attribute
    public abstract String getStyleClass();
 
    @Attribute
    public abstract String getStyle();
-   
+
    public abstract void setStyleClass(String styleClass);
-   
+
    public abstract void setStyle(String style);
 
 }

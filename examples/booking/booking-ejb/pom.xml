@@ -4,10 +4,10 @@
     <parent>
         <groupId>org.jboss.seam.examples</groupId>
         <artifactId>booking</artifactId>
-        <version>2.3.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version>
+        <relativePath></relativePath>
     </parent>
-    
+
     <groupId>org.jboss.seam.examples.booking</groupId>
     <artifactId>booking-ejb</artifactId>
     <packaging>ejb</packaging>
@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -31,12 +31,12 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -45,12 +45,7 @@
             <type>ejb</type>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
@@ -58,13 +53,13 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-         
+
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -76,6 +71,35 @@
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.richfaces</groupId>
+            <artifactId>richfaces-distribution</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.richfaces</groupId>
+            <artifactId>richfaces</artifactId>
+            <version>4.5.0.Final</version>
+        </dependency>
+                <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-debug</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>
@@ -110,7 +134,7 @@
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>integration-tests</id>
             <activation>
@@ -140,7 +164,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>arq-jbossas-7-managed</id>
             <activation>
@@ -154,8 +177,70 @@
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
                     <scope>test</scope>
-                </dependency>                
+                </dependency>
             </dependencies>
+        </profile>
+        <profile>
+            <id>arq-wildfly-8-managed</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-managed-8</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                    <directory>src/test/resources</directory>
+                </testResource>
+                <testResource>
+                    <directory>src/test/resources-wildfly-8</directory>
+                </testResource>
+                </testResources>
+            </build>
+            <properties>
+                <jndiPattern>java:app/seam-booking/#{ejbName}</jndiPattern>
+                <distributable>false</distributable>
+            </properties>
+        </profile>
+        <profile>
+            <id>arq-wildfly-10-managed</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-managed-8</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                    <directory>src/test/resources</directory>
+                </testResource>
+                <testResource>
+                    <directory>src/test/resources-wildfly-10</directory>
+                </testResource>
+                </testResources>
+            </build>
+            <properties>
+                <jndiPattern>java:app/seam-booking/#{ejbName}</jndiPattern>
+                <distributable>false</distributable>
+            </properties>
         </profile>
 
         <profile>
@@ -171,15 +256,51 @@
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
                     <scope>test</scope>
-                </dependency>                
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>arq-wildfly-8-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-8-remote</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- http://repo1.maven.org/maven2/org/wildfly/wildfly-arquillian-container-remote/ -->
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <version>8.2.1.Final</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>arq-wildfly-10-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-10-remote</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- http://repo1.maven.org/maven2/org/wildfly/arquillian/wildfly-arquillian-container-remote/ -->
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <version>1.1.0.Final</version>
+                    <scope>test</scope>
+                </dependency>
             </dependencies>
         </profile>
     </profiles>
-    
+
     <build>
         <plugins>
             <!-- Skip tests by default -->
-            <plugin> 
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
@@ -188,5 +309,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

@@ -25,11 +25,11 @@ import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.navigation.Pages;
 
 /**
- * Propagates the conversation context and page parameters across any 
- * browser redirect initiated from a JSF navigation rule defined in 
+ * Propagates the conversation context and page parameters across any
+ * browser redirect initiated from a JSF navigation rule defined in
  * faces-config.xml. Note that this is no longer needed if all
  * navigation rules are defined in pages.xml.
- * 
+ *
  * @author Gavin King
  */
 @Scope(APPLICATION)
@@ -37,43 +37,70 @@ import org.jboss.seam.navigation.Pages;
 @Install(precedence = BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @BypassInterceptors
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
-public class RedirectFilter extends AbstractFilter 
+public class RedirectFilter extends AbstractFilter
 {
-   public void doFilter(ServletRequest request, ServletResponse response,
-         FilterChain chain) throws IOException, ServletException 
-   {
-      chain.doFilter( request, wrapResponse( (HttpServletResponse) response ) );
-   }
-   
-   private static ServletResponse wrapResponse(HttpServletResponse response) 
-   {
-      return new HttpServletResponseWrapper(response)
-      {
-         @Override
-         public void sendRedirect(String url) throws IOException
-         {
-            if ( FacesContext.getCurrentInstance() != null 
-                  && Contexts.isEventContextActive() 
-                  && !Contexts.getEventContext().isSet(REDIRECT_FROM_MANAGER) )
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+         FilterChain chain) throws IOException, ServletException
+    {
+        RedirectFilterHttpResponseWrapper r = new RedirectFilterHttpResponseWrapper( (HttpServletResponse)response );
+        chain.doFilter( request, r );
+        r.completeRedirect();
+    }
+
+    /**
+     * Seam wraps transactions around the InvokeApplication phase.  If a sendRedirect is called
+     * on the FacesContext during that phase,  the browser will receive the redirect location BEFORE the invoke
+     * application phase is completed (and before seam commits its transaction).
+     * This class wraps the response object and will store the redirect url to be sent at a later time (when the
+     * doFilter is complete)
+     */
+    public static class RedirectFilterHttpResponseWrapper extends HttpServletResponseWrapper
+    {
+        private String savedUrl;
+
+        public RedirectFilterHttpResponseWrapper( HttpServletResponse response )
+        {
+            super( response );
+        }
+
+        @Override
+        public void sendRedirect( String url ) throws IOException
+        {
+            if ( FacesContext.getCurrentInstance() != null
+                    && Contexts.isEventContextActive()
+                    && !Contexts.getEventContext().isSet( REDIRECT_FROM_MANAGER ) )
             {
-               if ( !url.startsWith("http:") && !url.startsWith("https:") ) //yew!
-               {
-                  String viewId = getViewId(url);
-                  if (viewId!=null)
-                  {
-                     url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
-                  }
-                  if ( Contexts.isConversationContextActive() )
-                  {
-                     url = FacesManager.instance().appendConversationIdFromRedirectFilter(url, viewId);
-                  }
-               }
+                if ( !url.startsWith( "http:" ) && !url.startsWith( "https:" ) ) //yew!
+                {
+                    String viewId = getViewId( url );
+                    if ( viewId != null )
+                    {
+                        url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
+                    }
+                    if ( Contexts.isConversationContextActive() )
+                    {
+                        url = FacesManager.instance().appendConversationIdFromRedirectFilter( url, viewId );
+                    }
+                }
             }
-            super.sendRedirect(url);
-         }
-      };
+            this.savedUrl = url;
+        }
+
+        public void completeRedirect() throws IOException
+        {
+            if(savedUrl != null)
+            {
+                super.sendRedirect( savedUrl );
+            }
+        }
+
+        public String getSavedUrl()
+        {
+            return savedUrl;
+        }
    }
-   
+
    public static String getViewId(String url)
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -90,7 +117,7 @@ public class RedirectFilter extends AbstractFilter
          return getViewId(url, pathInfo, servletPath, contextPath);
       }
    }
-   
+
    protected static String getViewId(String url, String pathInfo, String servletPath, String contextPath)
    {
       if (pathInfo!=null)
@@ -117,7 +144,7 @@ public class RedirectFilter extends AbstractFilter
          return null;
       }
    }
-   
+
    private static int getParamLoc(String url)
    {
       int loc = url.indexOf('?');

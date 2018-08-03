@@ -8,7 +8,7 @@
     <local-tx-datasource>
         <jndi-name>blogDatasource</jndi-name>
         <connection-url>jdbc:hsqldb:.</connection-url>
-        <driver-class>org.hsqldb.jdbcDriver</driver-class>
+        <driver-class>org.hsqldb.jdbc.JDBCDriver</driver-class>
         <user-name>sa</user-name>
         <password></password>
     </local-tx-datasource>

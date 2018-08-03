@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0"
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-    <listener>
-        <listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
-    </listener>
+	<listener>
+		<listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
+	</listener>
+
+	<!-- http://balusc.omnifaces.org/2015/09/what-mojarra-context-parameters-are.html -->
+	<!-- https://java.net/jira/browse/JAVASERVERFACES-670 -->
+	<!-- 
+		There is a chance for an NPE in com.sun.faces.application.WebappLifecycleListener 
+		with some configurations. Take for example, installing JSF in a container 
+		such that JSF will be available to all web applications. The NPE will occur 
+		for an application that doesn't have the FacesServlet defined within its 
+		web.xml. The workaround for this issue is, within the global web.xml for 
+		the container (JBoss and Tomcat both have one) add either a FacesServlet 
+		definition (no mapping) or add the context init parameter, com.sun.faces.forceLoadConfiguration, 
+		with a value of true. See issue 670 for details. 
+	-->
+	<context-param>
+		<param-name>com.sun.faces.forceLoadConfiguration</param-name>
+		<param-value>true</param-value>
+	</context-param>
 
 </web-app>

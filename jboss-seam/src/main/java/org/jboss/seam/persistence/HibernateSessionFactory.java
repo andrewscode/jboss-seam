@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategy;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.cfg.NamingStrategy;
 import org.hibernate.internal.util.ReflectHelper;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -24,7 +25,7 @@ import org.jboss.seam.util.Naming;
 
 /**
  * A Seam component that bootstraps a Hibernate SessionFactory
- * 
+ *
  * <p>
  * Loads Hibernate configuration options by checking:
  * <li>hibernate.properties in root of the classpath
@@ -47,7 +48,7 @@ import org.jboss.seam.util.Naming;
  * <p>
  * The <tt>jndiProperties</tt> are convenience, the factory will automatically
  * prefix regular JNDI properties for use as Hibernate configuration properties.
- * 
+ *
  * @author Gavin King
  * @author Christian Bauer
  */
@@ -65,20 +66,21 @@ public class HibernateSessionFactory
    private List<String> mappingJars;
    private List<String> mappingPackages;
    private List<String> mappingResources;
-   private NamingStrategy namingStrategy;
-   
+   private ImplicitNamingStrategy implicitNamingStrategy;
+   private PhysicalNamingStrategy physicalNamingStrategy;
+
    @Unwrap
    public SessionFactory getSessionFactory() throws Exception
    {
       return sessionFactory;
    }
-   
+
    @Create
    public void startup() throws Exception
    {
       sessionFactory = createSessionFactory();
    }
-   
+
    @Destroy
    public void shutdown()
    {
@@ -91,13 +93,17 @@ public class HibernateSessionFactory
    protected SessionFactory createSessionFactory() throws ClassNotFoundException
    {
       Configuration configuration = new Configuration();
-      
+
       // setup non-default naming strategy
-      if (namingStrategy != null)
+      if (implicitNamingStrategy != null)
       {
-         configuration.setNamingStrategy(namingStrategy);
+         configuration.setImplicitNamingStrategy( implicitNamingStrategy );
       }
-      
+      if(physicalNamingStrategy != null)
+      {
+          configuration.setPhysicalNamingStrategy( physicalNamingStrategy );
+      }
+
       // Programmatic configuration
       if (cfgProperties != null)
       {
@@ -118,7 +124,7 @@ public class HibernateSessionFactory
       if (cfgProperties==null && cfgResourceName==null)
       {
          configuration.configure();
-      } 
+      }
       else if (cfgProperties==null && cfgResourceName!=null)
       {
          configuration.configure(cfgResourceName);
@@ -126,123 +132,121 @@ public class HibernateSessionFactory
       // Mapping metadata
       if (mappingClasses!=null)
       {
-         for (String className: mappingClasses) 
+         for (String className: mappingClasses)
          {
             configuration.addAnnotatedClass(ReflectHelper.classForName(className));
          }
       }
       if (mappingFiles!=null)
       {
-         for (String fileName: mappingFiles) 
+         for (String fileName: mappingFiles)
          {
             configuration.addFile(fileName);
          }
       }
       if (mappingJars!=null)
       {
-         for (String jarName: mappingJars) 
+         for (String jarName: mappingJars)
          {
             configuration.addJar(new File(jarName));
          }
       }
       if (mappingPackages!= null)
       {
-         for (String packageName: mappingPackages) 
+         for (String packageName: mappingPackages)
          {
             configuration.addPackage(packageName);
          }
       }
       if (mappingResources!= null)
       {
-         for (String resourceName : mappingResources) 
+         for (String resourceName : mappingResources)
          {
             configuration.addResource(resourceName);
          }
       }
-      
+
       configuration.setInterceptor(new HibernateSecurityInterceptor(configuration.getInterceptor()));
-      
+
       return configuration.buildSessionFactory();
    }
-   
+
    public String getCfgResourceName()
    {
       return cfgResourceName;
    }
-   
+
    public void setCfgResourceName(String cfgFileName)
    {
       this.cfgResourceName = cfgFileName;
    }
-   
-   public NamingStrategy getNamingStrategy()
-   {
-      return namingStrategy;
+
+   public void setImplicitNamingStrategy(ImplicitNamingStrategy implicitNamingStrategy) {
+       this.implicitNamingStrategy = implicitNamingStrategy;
    }
-   
-   public void setNamingStrategy(NamingStrategy namingStrategy)
-   {
-      this.namingStrategy = namingStrategy;
+
+   public void setPhysicalNamingStrategy(PhysicalNamingStrategy physicalNamingStrategy) {
+       this.physicalNamingStrategy = physicalNamingStrategy;
    }
-   
+
    public Map<String, String> getCfgProperties()
    {
       return cfgProperties;
    }
-   
+
    public void setCfgProperties(Map<String, String> cfgProperties)
    {
       this.cfgProperties = cfgProperties;
    }
-   
+
    public List<String> getMappingClasses()
    {
       return mappingClasses;
    }
-   
+
    public void setMappingClasses(List<String> mappingClasses)
    {
       this.mappingClasses = mappingClasses;
    }
-   
+
    public List<String> getMappingFiles()
    {
       return mappingFiles;
    }
-   
+
    public void setMappingFiles(List<String> mappingFiles)
    {
       this.mappingFiles = mappingFiles;
    }
-   
+
    public List<String> getMappingJars()
    {
       return mappingJars;
    }
-   
+
    public void setMappingJars(List<String> mappingJars)
    {
       this.mappingJars = mappingJars;
    }
-   
+
    public List<String> getMappingPackages()
    {
       return mappingPackages;
    }
-   
+
    public void setMappingPackages(List<String> mappingPackages)
    {
       this.mappingPackages = mappingPackages;
    }
-   
+
    public List<String> getMappingResources()
    {
       return mappingResources;
    }
-   
+
    public void setMappingResources(List<String> mappingResources)
    {
       this.mappingResources = mappingResources;
    }
-   
+
 }

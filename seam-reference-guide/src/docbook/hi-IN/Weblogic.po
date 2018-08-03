@@ -793,7 +793,7 @@ msgstr ""
 #. Tag: para
 #: Weblogic.xml:494
 #, no-c-format
-msgid "Driver Class Name: <literal>org.hsqldb.jdbcDriver</literal>"
+msgid "Driver Class Name: <literal>org.hsqldb.jdbc.JDBCDriver</literal>"
 msgstr ""
 
 #. Tag: para
@@ -1629,7 +1629,7 @@ msgid ""
 "\n"
 "    [input] Enter JDBC driver class for your database [org.hsqldb."
 "jdbcDriver] \n"
-" [org.hsqldb.jdbcDriver]\n"
+" [org.hsqldb.jdbc.JDBCDriver]\n"
 "\n"
 "    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] [jdbc:"
 "hsqldb:.]\n"

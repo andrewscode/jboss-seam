@@ -51,7 +51,7 @@ import org.xml.sax.InputSource;
 
 /**
  * A seam component that boostraps a JBPM SessionFactory
- * 
+ *
  * @author Gavin King
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Norman Richards
@@ -62,10 +62,10 @@ import org.xml.sax.InputSource;
 @Startup
 @Name("org.jboss.seam.bpm.jbpm")
 @Install(value=false, precedence=BUILT_IN)
-public class Jbpm 
+public class Jbpm
 {
    private static final LogProvider log = Logging.getLogProvider(Jbpm.class);
-   
+
    private JbpmConfiguration jbpmConfiguration;
    private String jbpmConfigurationJndiName;
    private String[] processDefinitions;
@@ -88,12 +88,12 @@ public class Jbpm
    @Destroy
    public void shutdown()
    {
-      if (jbpmConfiguration!=null) 
+      if (jbpmConfiguration!=null)
       {
          jbpmConfiguration.close();
       }
    }
-   
+
    public JbpmConfiguration getJbpmConfiguration()
    {
       if (jbpmConfiguration==null)
@@ -131,10 +131,10 @@ public class Jbpm
          {
             prefixed.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
          }
-         
+
          try
          {
-            dbpsf.getConfiguration().getProperties().putAll(prefixed);
+            dbpsf.getJbpmHibernateConfiguration().getConfigurationProxy().getProperties().putAll(prefixed);
          }
          catch (HibernateException he)
          {
@@ -147,12 +147,12 @@ public class Jbpm
    {
       return pageflowProcessDefinitions.get(pageflowName);
    }
-   
+
    public boolean isPageflowProcessDefinition(String pageflowName)
    {
       return pageflowProcessDefinitions.containsKey(pageflowName);
    }
-   
+
    public static ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
    {
       InputStream resource = ResourceLoader.instance().getResourceAsStream(resourceName);
@@ -171,15 +171,15 @@ public class Jbpm
           Resources.closeStream(resource);
       }
    }
-   
-   public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
+
+   public ProcessDefinition getProcessDefinitionFromResource(String resourceName)
    {
       InputStream resource = ResourceLoader.instance().getResourceAsStream(resourceName);
       if (resource==null)
       {
          throw new IllegalArgumentException("process definition resource not found: " + resourceName);
       }
-      
+
       try {
           return ProcessDefinition.parseXmlInputStream(resource);
       } finally {
@@ -187,40 +187,40 @@ public class Jbpm
       }
    }
 
-   public String[] getPageflowDefinitions() 
+   public String[] getPageflowDefinitions()
    {
       return pageflowDefinitions;
    }
 
-   public void setPageflowDefinitions(String[] pageflowDefinitions) 
+   public void setPageflowDefinitions(String[] pageflowDefinitions)
    {
       this.pageflowDefinitions = pageflowDefinitions;
    }
-   
-   public String[] getProcessDefinitions() 
+
+   public String[] getProcessDefinitions()
    {
       return processDefinitions;
    }
 
-   public void setProcessDefinitions(String[] processDefinitions) 
+   public void setProcessDefinitions(String[] processDefinitions)
    {
       this.processDefinitions = processDefinitions;
    }
-   
+
    /**
-    * Dynamically deploy a page flow definition, if a pageflow with an 
+    * Dynamically deploy a page flow definition, if a pageflow with an
     * identical name already exists, the pageflow is updated.
-    * 
+    *
     * @return true if the pageflow definition has been updated
     */
-   public boolean deployPageflowDefinition(ProcessDefinition pageflowDefinition) 
+   public boolean deployPageflowDefinition(ProcessDefinition pageflowDefinition)
    {
       return pageflowProcessDefinitions.put( pageflowDefinition.getName(), pageflowDefinition )!=null;
    }
-   
+
    /**
     * Read a pageflow definition
-    * 
+    *
     * @param pageflowDefinition the pageflow as an XML string
     */
    public ProcessDefinition getPageflowDefinitionFromXml(String pageflowDefinition)
@@ -232,12 +232,12 @@ public class Jbpm
           return Jbpm.parseReaderSource(reader);
       } finally {
           Resources.closeReader(reader);
-      }       
+      }
    }
-   
+
    /**
     * Read a process definition
-    * 
+    *
     * @param processDefinition the process as an XML string
     */
    public ProcessDefinition getProcessDefinitionFromXml(String processDefinition)
@@ -252,30 +252,30 @@ public class Jbpm
            Resources.closeReader(reader);
        }
    }
-   
+
    /**
     * Remove a pageflow definition
-    * 
+    *
     * @param pageflowName Name of the pageflow to remove
     * @return true if the pageflow definition has been removed
     */
-   public boolean undeployPageflowDefinition(String pageflowName) 
-   {     
+   public boolean undeployPageflowDefinition(String pageflowName)
+   {
       return pageflowProcessDefinitions.remove(pageflowName)!=null;
    }
-   
+
    private void installPageflowDefinitions() {
       Set<String> mergedPageflowDefinitions = new LinkedHashSet<String>();
       if ( pageflowDefinitions!=null )
       {
          mergedPageflowDefinitions.addAll(Arrays.asList(pageflowDefinitions));
       }
-      
+
       for (FileDescriptor fileDescriptor : ((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getResources())
       {
          mergedPageflowDefinitions.add(fileDescriptor.getName());
       }
-      
+
       for (String pageflow: mergedPageflowDefinitions)
       {
          ProcessDefinition pd = getPageflowDefinitionFromResource(pageflow);
@@ -323,7 +323,7 @@ public class Jbpm
    {
       return processDefinitions!=null && processDefinitions.length>0;
    }
-   
+
    public static Jbpm instance()
    {
       if ( !Contexts.isApplicationContextActive() )
@@ -346,35 +346,35 @@ public class Jbpm
    {
       this.jbpmConfigurationJndiName = jbpmConfigurationJndiName;
    }
-   
+
    public static JbpmConfiguration pageflowConfiguration = JbpmConfiguration.parseResource("org/jboss/seam/bpm/jbpm.pageflow.cfg.xml");
 
-   public static JbpmContext createPageflowContext() 
+   public static JbpmContext createPageflowContext()
    {
       return pageflowConfiguration.createJbpmContext();
    }
 
-   public static ProcessDefinition parseInputSource(InputSource inputSource) 
+   public static ProcessDefinition parseInputSource(InputSource inputSource)
    {
       JbpmContext jbpmContext = createPageflowContext();
-      try 
+      try
       {
          return new PageflowParser(inputSource).readProcessDefinition();
       }
-      finally 
+      finally
       {
          jbpmContext.close();
       }
    }
-   
-   public static ProcessDefinition parseReaderSource(Reader reader) 
+
+   public static ProcessDefinition parseReaderSource(Reader reader)
    {
       JbpmContext jbpmContext = createPageflowContext();
-      try 
+      try
       {
          return new PageflowParser(reader).readProcessDefinition();
       }
-      finally 
+      finally
       {
          jbpmContext.close();
       }
@@ -390,5 +390,5 @@ public class Jbpm
          return pageflow==null ? DB_SUB_PROCESS_RESOLVER.findSubProcess(element) : pageflow;
       }
    }
-   
+
 }

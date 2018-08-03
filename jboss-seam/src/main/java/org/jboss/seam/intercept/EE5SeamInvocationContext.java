@@ -1,11 +1,12 @@
 package org.jboss.seam.intercept;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 /**
  * Adapts from Seam's InvocationContext API to the standard EE5 API.
  * (Not much to see here, they are identical apart from package names.)
- * 
+ *
  * @author Gavin King
  *
  */
@@ -23,5 +24,15 @@ class EE5SeamInvocationContext extends SeamInvocationContext implements javax.in
       // not supported method
       return null;
    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Constructor<?> getConstructor()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

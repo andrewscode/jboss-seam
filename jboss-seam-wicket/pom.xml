@@ -1,49 +1,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>jboss-seam-parent</artifactId>
-		<groupId>org.jboss.seam</groupId>
-		<version>2.3.2-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>jboss-seam-parent</artifactId>
+        <groupId>org.jboss.seam</groupId>
+        <version>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<artifactId>jboss-seam-wicket</artifactId>
-	<name>Seam Wicket</name>
+    <artifactId>jboss-seam-wicket</artifactId>
+    <name>Seam Wicket</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
-			<type>ejb</type>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-ioc</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-ioc</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-datetime</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-datetime</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-extensions</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+            <optional>true</optional>
+        </dependency>
 
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.slf4j</groupId> -->
@@ -58,11 +58,11 @@
 <!-- 			</exclusions> -->
 <!-- 		</dependency> -->
 
-		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
       <dependency>
          <groupId>javax.validation</groupId>
@@ -74,14 +74,14 @@
 <!-- 			<artifactId>jboss-ejb-api_3.1_spec</artifactId> -->
 <!-- 			<scope>provided</scope> -->
 <!-- 		</dependency> -->
-		
-		<dependency>
-			<groupId>org.apache.ant</groupId>
-			<artifactId>ant</artifactId>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-	</dependencies>
+
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>

@@ -16,9 +16,11 @@
 
 package org.jboss.seam.mock;
 
-import javax.servlet.ServletInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
 
 /**
  * Delegating implementation of {@link javax.servlet.ServletInputStream}.
@@ -66,6 +68,45 @@ public class DelegatingServletInputStream extends ServletInputStream
    {
       super.close();
       this.sourceStream.close();
-	}
+    }
+
+    private int bytesAvailable()
+    {
+        try
+        {
+            return this.sourceStream.available();
+        }
+        catch ( IOException e )
+        {
+            return 0;
+        }
+   }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFinished()
+    {
+        return bytesAvailable() == 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isReady()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setReadListener( ReadListener readListener )
+    {
+
+    }
 
 }

@@ -1,90 +1,90 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<artifactId>jboss-seam-parent</artifactId>
-		<groupId>org.jboss.seam</groupId>
-		<version>2.3.2-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
-	<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>jboss-seam-parent</artifactId>
+        <groupId>org.jboss.seam</groupId>
+        <version>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>jboss-seam-ioc</artifactId>
-	<name>Seam IoC</name>
+    <artifactId>jboss-seam-ioc</artifactId>
+    <name>Seam IoC</name>
 
-	<properties>
-		<main.basedir>${project.parent.basedir}</main.basedir>
-	</properties>		
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<optional>true</optional>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
-			<type>ejb</type>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <optional>true</optional>
+        </dependency>
 
 
-		<dependency>
-			<groupId>org.jboss.spec.javax.transaction</groupId>
-			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+        </dependency>
 
-		<dependency>
-			<groupId>org.javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>com.google.code.guice</groupId>
-			<artifactId>guice</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.guice</groupId>
+            <artifactId>guice</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 <!-- 		<dependency> -->
 <!-- 			<groupId>jboss</groupId> -->
 <!-- 			<artifactId>jboss-jmx</artifactId> -->
 <!-- 		</dependency> -->
 
-	</dependencies>
+    </dependencies>
 
     <profiles>
         <profile>
@@ -157,7 +157,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>        
+        </profile>
     </profiles>
-    
+
 </project>

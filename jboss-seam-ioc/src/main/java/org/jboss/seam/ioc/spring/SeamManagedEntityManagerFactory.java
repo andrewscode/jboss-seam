@@ -8,9 +8,12 @@ import java.lang.reflect.Proxy;
 import java.util.Map;
 
 import javax.persistence.Cache;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnitUtil;
+import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.Metamodel;
 
@@ -23,7 +26,7 @@ import org.springframework.util.ClassUtils;
 /**
  * An EntityManagerFactory that defers creation and management of an
  * EntityManager to a Seam ManagedPersistenceContext.
- * 
+ *
  * @author Mike Youngstrom
  */
 public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Serializable
@@ -62,7 +65,7 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Se
       log.debug("Returning a Seam Managed PC from createEntityManager()");
       SeamLifecycleUtils.beginTransactionalSeamCall();
       EntityManager em = (EntityManager) Component.getInstance(persistenceContextName);
-      //Creating Proxy of EntityManager to ensure we implement all the interfaces 
+      //Creating Proxy of EntityManager to ensure we implement all the interfaces
       return (EntityManager) Proxy.newProxyInstance(getClass().getClassLoader(), ClassUtils
                .getAllInterfaces(em), new SeamManagedPersistenceContextHandler(em));
    }
@@ -84,9 +87,9 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Se
     * EntityManager InvocationHandler used to correctly calls to close and
     * isOpen. We don't want Spring closing the SeamEntityManager only this
     * proxy.
-    * 
+    *
     * @author Mike Youngstrom
-    * 
+    *
     */
    public static class SeamManagedPersistenceContextHandler implements InvocationHandler, Serializable
    {
@@ -141,7 +144,7 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Se
             closed = true;
             return null;
          }
-         
+
          try
          {
             return method.invoke(delegate, args);
@@ -182,4 +185,54 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Se
       // TODO Auto-generated method stub
       return null;
    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EntityManager createEntityManager( SynchronizationType synchronizationType )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EntityManager createEntityManager( SynchronizationType synchronizationType, Map map )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addNamedQuery( String name, Query query )
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> T unwrap( Class<T> cls )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> void addNamedEntityGraph( String graphName, EntityGraph<T> entityGraph )
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

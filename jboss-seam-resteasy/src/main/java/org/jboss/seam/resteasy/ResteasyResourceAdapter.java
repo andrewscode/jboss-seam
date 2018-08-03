@@ -30,7 +30,6 @@ import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.SecurityContext;
 
 import org.jboss.resteasy.core.Dispatcher;
@@ -40,9 +39,10 @@ import org.jboss.resteasy.plugins.server.servlet.HttpServletInputMessage;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletResponseWrapper;
 import org.jboss.resteasy.plugins.server.servlet.ServletSecurityContext;
 import org.jboss.resteasy.plugins.server.servlet.ServletUtil;
-import org.jboss.resteasy.specimpl.UriInfoImpl;
+import org.jboss.resteasy.specimpl.ResteasyHttpHeaders;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
+import org.jboss.resteasy.spi.ResteasyUriInfo;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -124,8 +124,8 @@ public class ResteasyResourceAdapter extends AbstractResource
             {
                try
                {
-                  HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
-                  UriInfoImpl uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
+                  ResteasyHttpHeaders headers = ServletUtil.extractHttpHeaders(request);
+                  ResteasyUriInfo uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
 
                   HttpResponse theResponse = new HttpServletResponseWrapper(
                         response,
@@ -135,6 +135,8 @@ public class ResteasyResourceAdapter extends AbstractResource
                   // TODO: This requires a SynchronousDispatcher
                   HttpRequest in = new HttpServletInputMessage(
                         request,
+                        response,
+                        request.getServletContext(),
                         theResponse,
                         headers,
                         uriInfo,
@@ -148,7 +150,7 @@ public class ResteasyResourceAdapter extends AbstractResource
                {
                   /*
                    * Prevent anemic sessions clog up the server
-                   * 
+                   *
                    * session.isNew() check - do not close non-anemic sessions established by the view layer (JSF)
                    * which are reused by the JAX-RS requests (so that the requests do not have to be re-authorized)
                    */
@@ -171,7 +173,7 @@ public class ResteasyResourceAdapter extends AbstractResource
       }
    }
 
-   protected UriInfoImpl extractUriInfo(HttpServletRequest request, String pathPrefix)
+   protected ResteasyUriInfo extractUriInfo(HttpServletRequest request, String pathPrefix)
    {
       try
       {
@@ -190,7 +192,7 @@ public class ResteasyResourceAdapter extends AbstractResource
 
          // Still is /<context>/seam/resource/rest, so cut off the context
          mappingPrefix = mappingPrefix.substring(request.getContextPath().length());
-         
+
          log.debug("Using request mapping prefix: " + mappingPrefix);
 
          // This is the prefix used by RESTEasy to resolve resources and generate URIs with

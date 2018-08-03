@@ -12,7 +12,7 @@ public class Deployments {
    public static WebArchive defaultSeamDeployment() {
       return defaultSeamDeployment("WEB-INF/components.xml");
    }
-   
+
    // Deployment that use the proper SeamListener instead of the MockSeamListener
    public static WebArchive realSeamDeployment() {
       return ShrinkWrap.create(ZipImporter.class, "test.war").importFrom(new File("target/seam-integration-tests.war")).as(WebArchive.class)
@@ -36,7 +36,7 @@ public class Deployments {
                   .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")
                   .addAsWebInfResource("WEB-INF/real-web.xml", "web.xml")
                   .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml")
-                  .addAsWebInfResource("WEB-INF/jboss-seam-integration-tests-hornetq-jms.xml", "jboss-seam-integration-tests-hornetq-jms.xml");
+                  .addAsWebInfResource("WEB-INF/jboss-seam-integration-tests-jms.xml", "jboss-seam-integration-tests-jms.xml");
    }
 
    public static WebArchive jbpmSeamDeployment() {
@@ -85,14 +85,14 @@ public class Deployments {
                   .addAsResource("components.properties")
                   .addAsResource("messages_en.properties")
                   .addAsResource("META-INF/persistence.xml")
-   
+
                   .addAsResource("hibernate.cfg.xml")
                   .addAsWebInfResource(customComponentsXml, "components.xml")
                   .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")
                   .addAsWebInfResource("WEB-INF/web.xml", "web.xml")
                   .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml")
-                  .addAsWebInfResource("WEB-INF/jboss-seam-integration-tests-hornetq-jms.xml", "jboss-seam-integration-tests-hornetq-jms.xml");
-      
+                  .addAsWebInfResource("WEB-INF/jboss-seam-integration-tests-jms.xml", "jboss-seam-integration-tests-jms.xml");
+
       // Remove jboss-seam-ui for a Mock SeamTest test as it would cause Mojarra to initialize
       for (ArchivePath path : war.getContent().keySet()) {
          if (path.get().contains("jboss-seam-ui")) {
@@ -100,7 +100,7 @@ public class Deployments {
             break;
          }
       }
-      
+
       return war;
    }
 }
