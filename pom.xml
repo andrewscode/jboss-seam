@@ -45,9 +45,9 @@
         <pdf.name>${project.artifactId}.pdf</pdf.name>
 
         <!-- Version string properties -->
-        <version.seam>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version.seam>
+        <version.seam>2.3.2-1-wildfly_13_0_Final-SNAPSHOT</version.seam>
         <version.jbossas7>7.2.0.Final</version.jbossas7>
-        <version.wildfly>10.1.0.Final</version.wildfly>
+        <version.wildfly>13.0.Final</version.wildfly>
         <version.emma>2.0.5312</version.emma>
         <version.jsf.impl>2.2.13</version.jsf.impl>
         <version.richfaces.cdk>4.5.0.Final</version.richfaces.cdk>
