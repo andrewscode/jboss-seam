@@ -36,7 +36,7 @@ Source Code
 ^^^^^^^^^^^
 
 * https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_13_0_Final 
-** https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
+** is forked from https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
 ** is forked from https://github.com/andrewscode/jboss-seam/tree/seam_2_3-jee7 
 ** is forked from https://github.com/seam2/jboss-seam 
 ** is forked from https://github.com/mareknovotny/jboss-seam
@@ -50,7 +50,7 @@ Please note, that you will need to build and release the following components in
 
 . *jbpm3-seam* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5
 . *jsf-console* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5/projects/jsf-console-3.2.10-seam
-. *jboss-seam* - https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
+. *jboss-seam* - https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_13_0_Final
 
 
 Building and Releasing the Components
@@ -115,7 +115,7 @@ mvn -B -f ${WORKSPACE}/github/jbpm3-seam/projects/jsf-console-3.2.10-seam/pom.xm
 
 ----
 
-* *jboss-seam* - https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
+* *jboss-seam* - https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_13_0_Final
 
 [source,shell]
 ----
