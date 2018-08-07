@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jboss.seam.examples</groupId>
         <artifactId>booking</artifactId>
-        <version>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version>
+        <version>2.3.2-1-wildfly_13_0_Final-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>
 
@@ -84,9 +85,9 @@
         <dependency>
             <groupId>org.richfaces</groupId>
             <artifactId>richfaces</artifactId>
-            <version>4.5.0.Final</version>
+            <version>4.5.17.Final</version>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
@@ -99,7 +100,11 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-debug</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -190,20 +195,20 @@
                 </property>
             </activation>
             <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
+                <!-- <dependency> -->
+                <!-- <groupId>org.wildfly</groupId> -->
+                <!-- <artifactId>wildfly-arquillian-container-managed</artifactId> -->
+                <!-- <scope>test</scope> -->
+                <!-- </dependency> -->
             </dependencies>
             <build>
                 <testResources>
                     <testResource>
-                    <directory>src/test/resources</directory>
-                </testResource>
-                <testResource>
-                    <directory>src/test/resources-wildfly-8</directory>
-                </testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources-wildfly-8</directory>
+                    </testResource>
                 </testResources>
             </build>
             <properties>
@@ -221,20 +226,20 @@
                 </property>
             </activation>
             <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
+                <!-- <dependency> -->
+                <!-- <groupId>org.wildfly.arquillian</groupId> -->
+                <!-- <artifactId>wildfly-arquillian-container-managed</artifactId> -->
+                <!-- <scope>test</scope> -->
+                <!-- </dependency> -->
             </dependencies>
             <build>
                 <testResources>
                     <testResource>
-                    <directory>src/test/resources</directory>
-                </testResource>
-                <testResource>
-                    <directory>src/test/resources-wildfly-10</directory>
-                </testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources-wildfly-10</directory>
+                    </testResource>
                 </testResources>
             </build>
             <properties>

@@ -11,7 +11,7 @@
 
    <container qualifier="wildfly-arquillian-container-managed" default="true">
         <configuration>
-            <property name="jbossHome">${env.JBOSS_HOME_TEST}</property>
+            <property name="jbossHome">${env.WILDFLY_13_0_TEST}</property>
 <!--             <property name="jbossHome">C:/dev/tools/wildfly-8.2.0.Final-aquillian</property> -->
             <property name="serverConfig">standalone-full.xml</property>
             <property name="javaVmArguments">-Xms512m -Xmx1024m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n</property>

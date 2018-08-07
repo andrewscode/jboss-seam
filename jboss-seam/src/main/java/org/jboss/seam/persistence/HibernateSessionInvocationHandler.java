@@ -20,6 +20,7 @@ import org.hibernate.Interceptor;
 import org.hibernate.LobHelper;
 import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
+import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.NaturalIdLoadAccess;
 import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
@@ -57,6 +58,7 @@ import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.resource.transaction.TransactionCoordinator;
 import org.hibernate.stat.SessionStatistics;
+import org.hibernate.type.descriptor.WrapperOptions;
 
 /**
  * InvocationHandler that proxies the Session, and implements EL interpolation
@@ -937,6 +939,24 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
     {
         ((EventSource)delegate).removeOrphanBeforeUpdates( entityName, child );
     }
+
+	@Override
+	public WrapperOptions getWrapperOptions() {
+
+		return  ((EventSource)delegate).getWrapperOptions();
+	}
+
+	@Override
+	public <T> MultiIdentifierLoadAccess<T> byMultipleIds(Class<T> entityClass) {
+
+		return  ((EventSource)delegate).byMultipleIds(entityClass);
+	}
+
+	@Override
+	public MultiIdentifierLoadAccess byMultipleIds(String entityName) {
+		//
+		return  ((EventSource)delegate).byMultipleIds(entityName);
+	}
 
 
 }
