@@ -15,9 +15,10 @@
             <!-- To use jacoco, set jacoco.agent system property to something like
                  -javaagent:/path/to/jacocoagent.jar=append=true,destfile=/path/to/output/jacoco.exec -->
             <property name="javaVmArguments">-Xmx1024m -XX:MaxPermSize=1024m ${jacoco.agent}</property>
-            <property name="serverConfig">standalone.xml</property>
+            <property name="serverConfig">standalone-full.xml</property>
             <!-- If jbossHome property is not set, the JBOSS_HOME environment variable is used -->
             <!--<property name="jbossHome">/path/to/jboss/as</property>-->
+            <property name="jbossHome">${env.WILDFLY_13_0_TEST}</property>
         </configuration>
     </container>
 
