@@ -603,4 +603,10 @@ public class MockExternalContext extends ExternalContext
       }
       return url;
    }
+
+    @Override
+    public String encodeWebsocketURL( String url )
+    {
+        return null;
+    }
 }

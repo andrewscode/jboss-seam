@@ -14,41 +14,41 @@ import org.jboss.seam.util.Strings;
 
 public class MockViewHandler extends ViewHandler {
 
-	private static final LogProvider logger = Logging.getLogProvider(MockViewHandler.class);
-	
-	@Override
-	public Locale calculateLocale(FacesContext ctx) {
-		return Locale.getDefault();
-	}
+    private static final LogProvider logger = Logging.getLogProvider(MockViewHandler.class);
 
-	@Override
-	public String calculateRenderKitId(FacesContext ctx) {
-		return null;
-	}
+    @Override
+    public Locale calculateLocale(FacesContext ctx) {
+        return Locale.getDefault();
+    }
 
-	@Override
-	public UIViewRoot createView(FacesContext ctx, String viewId) {
-		UIViewRoot viewRoot = new UIViewRoot();
+    @Override
+    public String calculateRenderKitId(FacesContext ctx) {
+        return null;
+    }
+
+    @Override
+    public UIViewRoot createView(FacesContext ctx, String viewId) {
+        UIViewRoot viewRoot = new UIViewRoot();
       viewRoot.setViewId(viewId);
       //TODO: set locale?
       return viewRoot;
-	}
+    }
 
-	@Override
-	public String getActionURL(FacesContext ctx, String viewId)
+    @Override
+    public String getActionURL(FacesContext ctx, String viewId)
    {
       String contextPath = ctx.getExternalContext().getRequestContextPath();
       String pathInfo = ctx.getExternalContext().getRequestPathInfo();
-      String servletPath = ctx.getExternalContext().getRequestServletPath(); 
-      
+      String servletPath = ctx.getExternalContext().getRequestServletPath();
+
       if (Strings.isEmpty(pathInfo))
       {
          int sploc = servletPath.lastIndexOf('.');
          if (sploc < 0)
          {
-        	logger.warn("You should catch the exception before Seam", new IllegalArgumentException("no file extension in servlet path: " + servletPath));
-        	// in case of Servlet exception which is not mapped and handled by Seam
-        	return contextPath + viewId;            
+            logger.warn("You should catch the exception before Seam", new IllegalArgumentException("no file extension in servlet path: " + servletPath));
+            // in case of Servlet exception which is not mapped and handled by Seam
+            return contextPath + viewId;
          }
          return contextPath + getViewIdSansSuffix(viewId) + servletPath.substring(sploc);
 
@@ -59,33 +59,39 @@ public class MockViewHandler extends ViewHandler {
       }
    }
 
-	private static String getViewIdSansSuffix(String viewId)
-	{
-	   int loc = viewId.lastIndexOf('.');
+    private static String getViewIdSansSuffix(String viewId)
+    {
+       int loc = viewId.lastIndexOf('.');
       if (loc < 0)
       {
          throw new IllegalArgumentException("no file extension in view id: " + viewId);
       }
       return viewId.substring(0, loc);
-	}
+    }
 
-	@Override
-	public String getResourceURL(FacesContext ctx, String url) 
+    @Override
+    public String getResourceURL(FacesContext ctx, String url)
    {
-		return url;
-	}
+        return url;
+    }
 
-	@Override
-	public void renderView(FacesContext ctx, UIViewRoot viewRoot)
-			throws IOException, FacesException {}
+    @Override
+    public void renderView(FacesContext ctx, UIViewRoot viewRoot)
+            throws IOException, FacesException {}
 
-	@Override
-	public UIViewRoot restoreView(FacesContext ctx, String id) 
+    @Override
+    public UIViewRoot restoreView(FacesContext ctx, String id)
    {
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public void writeState(FacesContext ctx) throws IOException {}
+    @Override
+    public void writeState(FacesContext ctx) throws IOException {}
+
+    @Override
+    public String getWebsocketURL( FacesContext context, String channel )
+    {
+        return null;
+    }
 
 }

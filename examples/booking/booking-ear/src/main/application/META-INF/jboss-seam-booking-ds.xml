@@ -2,7 +2,7 @@
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
     <datasource jta="true" jndi-name="java:/bookingDatasource"
         pool-name="Test_DS_Pool" use-ccm="true">
-        <connection-url>jdbc:sqlserver://localhost:1433;databaseName=test</connection-url>
+        <connection-url>jdbc:sqlserver://sqlserver2016.server.local:1433;databaseName=test</connection-url>
         <driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver-class>
         <driver>sqlserver</driver>
         <pool>
