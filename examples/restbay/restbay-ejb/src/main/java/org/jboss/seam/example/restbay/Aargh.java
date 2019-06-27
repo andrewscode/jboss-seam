@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * Nasty nasty hack because hsqldb doesn't support date arithmetic and we actually
  * want to deploy with usable test data.
- * 
+ *
  * @author shane
  *
  */
@@ -29,7 +29,7 @@ import java.util.Random;
 @Scope(APPLICATION)
 @BypassInterceptors
 public class Aargh
-{   
+{
 
    @Create
    public void create()
@@ -37,19 +37,15 @@ public class Aargh
       UserTransaction t = null;
       try
       {
-         InitialContext ctx = new InitialContext();
-         
-         t = (UserTransaction) ctx.lookup("java:/jboss/UserTransaction");
-         t.begin();
-      
+
          EntityManager em = (EntityManager) Component.getInstance("entityManager", true);
-         
+
          List<Auction> auctions = em.createQuery("select a from Auction a").getResultList();
-         
+
          Calendar cal = new GregorianCalendar();
-         
+
          Random r = new Random(System.currentTimeMillis());
-         
+
          for (Auction auction : auctions)
          {
             cal.setTime(auction.getEndDate());
@@ -62,19 +58,18 @@ public class Aargh
             AuctionEndAction auctionEnd = (AuctionEndAction) Component.getInstance(AuctionEndAction.class, true);
             auctionEnd.endAuction(auction.getAuctionId(), auction.getEndDate());
          }
-         
-         t.commit();
-      } 
+
+      }
       catch (Exception e)
       {
          try
          {
             if (t != null)
                t.rollback();
-         } 
+         }
          catch (SystemException e1) {}
-         
+
          throw new RuntimeException("Error starting transaction", e);
-      }      
+      }
    }
 }

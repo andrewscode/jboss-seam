@@ -28,14 +28,15 @@ Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distrib
 Wildfly Support
 ~~~~~~~~~~~~~~~
 
-This link:https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_13_0_Final[branch] attempts to update Seam 2.3 to support JEE 7, JSF 2.2, Servlet 3.1, RESTEasy 3.5 and target Wildfly 13.0.Final.
+This link:https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_13_0_Final[branch] attempts to update Seam 2.3 to support JEE 8, JSF 2.3, Servlet 3.1, RESTEasy 3.6 and target Wildfly 15.0.1.
 
 This is an unofficial modification of Seam 2.3 and related libraries.
 
 Source Code
 ^^^^^^^^^^^
 
-* https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_13_0_Final 
+* https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_15_Final 
+** is forked from https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_13_0_Final 
 ** is forked from https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_10_1_0_Final
 ** is forked from https://github.com/andrewscode/jboss-seam/tree/seam_2_3-jee7 
 ** is forked from https://github.com/seam2/jboss-seam 
@@ -50,7 +51,7 @@ Please note, that you will need to build and release the following components in
 
 . *jbpm3-seam* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5
 . *jsf-console* - https://github.com/mark1900/jbpm3-seam/tree/3.2.10.SP3_seam2_hibernate5/projects/jsf-console-3.2.10-seam
-. *jboss-seam* - https://github.com/mark1900/jboss-seam/tree/seam_2_3-wildfly_13_0_Final
+. *jboss-seam* - https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_15_0_Final
 
 
 Building and Releasing the Components
@@ -115,7 +116,7 @@ mvn -B -f ${WORKSPACE}/github/jbpm3-seam/projects/jsf-console-3.2.10-seam/pom.xm
 
 ----
 
-* *jboss-seam* - https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_13_0_Final
+* *jboss-seam* - https://github.com/andrewscode/jboss-seam/tree/seam_2_3-wildfly_15_0_Final
 
 [source,shell]
 ----
@@ -126,8 +127,8 @@ set -x
  
 id
  
-SEAM_VERSION_FROM=2.3.2-1-wildfly_13_0_Final-SNAPSHOT
-SEAM_VERSION_TO=2.3.2-1-wildfly_13_0_Final
+SEAM_VERSION_FROM=2.3.2-1-wildfly_15_0_Final-SNAPSHOT
+SEAM_VERSION_TO=2.3.2-1-wildfly_15_0_Final
 JBPM_VERSION_FROM=3.2.10-1-SP3_seam2_hibernate5-SNAPSHOT
 JBPM_VERSION_TO=3.2.10-1-SP3_seam2_hibernate5
 
@@ -137,7 +138,7 @@ mkdir ${WORKSPACE}/github
 cd ${WORKSPACE}/github
  
 git clone -b seam_2_3-wildfly_13_0_Final https://github.com/andrewscode/jboss-seam.git
-zip -r jboss-seam-seam_2_3-wildfly_13_0_Final.zip jboss-seam
+zip -r jboss-seam-seam_2_3-wildfly_15_0_Final.zip jboss-seam
 find ${WORKSPACE}/github/jboss-seam -type f -name "pom.xml" -exec sed -i "s/${SEAM_VERSION_FROM}/${SEAM_VERSION_TO}/g" {} \;
 find ${WORKSPACE}/github/jboss-seam -type f -name "pom.xml" -exec sed -i "s/${JBPM_VERSION_FROM}/${JBPM_VERSION_TO}/g" {} \;
  
