@@ -21,6 +21,7 @@
     <property name="hibernate.cache.use_query_cache">false</property>
     <property name="hibernate.cache.use_second_level_cache">false</property>
     <property name="hibernate.allow_update_outside_transaction">true</property>
+    <property name="hibernate.jta.allowTransactionAccess">true</property>
 
     <property name="show_sql">true</property>
 
